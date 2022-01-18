@@ -25,19 +25,6 @@ class GameViewController: UIViewController {
         // place the camera
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 10)
         
-//        // create and add lights to the scene
-//        let lightNode0 = SCNNode()
-//        lightNode0.light = SCNLight()
-//        lightNode0.light!.type = .omni
-//        lightNode0.position = SCNVector3(x: 0, y: 10, z: 10)
-//        scene.rootNode.addChildNode(lightNode0)
-//
-//        let lightNode1 = SCNNode()
-//        lightNode1.light = SCNLight()
-//        lightNode1.light!.type = .omni
-//        lightNode1.position = SCNVector3(5, -10, 0)
-//        scene.rootNode.addChildNode(lightNode1)
-        
         // retrieve the SCNView
         let scnView = self.view as! SCNView
         
@@ -53,7 +40,9 @@ class GameViewController: UIViewController {
         // configure the view
         scnView.backgroundColor = UIColor.white
         
+        
         //My cutom geometry
+        VirtualPushButton()
         addSafetyGeometry()
         addLeftSidescreenGeometry()
         addRightSidescreenGeometry()
@@ -62,6 +51,7 @@ class GameViewController: UIViewController {
         Grid()
         Circle()
         Cone()
+        
     }
     
     @objc
@@ -134,14 +124,11 @@ class GameViewController: UIViewController {
         
         let node = SCNNode(geometry: geometry)
 
-        geometry.firstMaterial?.diffuse.contents = UIColor(red:1.0,green:0.4,blue:0.2,alpha:0.5)
+        geometry.firstMaterial?.diffuse.contents = UIColor(red:1.0,green:0.5,blue:0.1,alpha:0.7)
         
         let scnView = self.view as! SCNView
         
         scnView.scene?.rootNode.addChildNode(node)
-        
-        //let rotateAction = SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: .pi, z: 0, duration: 5))
-        //node.runAction(rotateAction)
     }
     
     func addLeftSidescreenGeometry() {
@@ -166,14 +153,11 @@ class GameViewController: UIViewController {
         
         let node = SCNNode(geometry: geometry)
 
-        geometry.firstMaterial?.diffuse.contents = UIColor(red:0.5,green:0.7,blue:0.5,alpha:0.5)
+        geometry.firstMaterial?.diffuse.contents = UIColor(red:0.5,green:0.7,blue:0.5,alpha:0.7)
         
         let scnView = self.view as! SCNView
         
         scnView.scene?.rootNode.addChildNode(node)
-        
-        //let rotateAction = SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: .pi, z: 0, duration: 5))
-        //node.runAction(rotateAction)
     }
     
     func addRightSidescreenGeometry() {
@@ -198,14 +182,11 @@ class GameViewController: UIViewController {
         
         let node = SCNNode(geometry: geometry)
 
-        geometry.firstMaterial?.diffuse.contents = UIColor(red:0.5,green:0.7,blue:0.5,alpha:0.5)
+        geometry.firstMaterial?.diffuse.contents = UIColor(red:0.5,green:0.7,blue:0.5,alpha:0.7)
         
         let scnView = self.view as! SCNView
         
         scnView.scene?.rootNode.addChildNode(node)
-        
-        //let rotateAction = SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: .pi, z: 0, duration: 5))
-        //node.runAction(rotateAction)
     }
     
     func ObjectCube() {
@@ -325,8 +306,8 @@ class GameViewController: UIViewController {
         
         let node = SCNNode(geometry: geometry)
         //node.position = SCNVector3(0, 0, 0.2)
-        geometry.firstMaterial?.diffuse.contents = UIColor(red:0.7,green:0.5,blue:1.0,alpha:1)
-        
+        geometry.firstMaterial?.diffuse.contents = UIColor(red:0.0,green:0.3,blue:1.0,alpha:1)
+        geometry.firstMaterial?.isDoubleSided = true    // both side will be visible like 3D shape
         let scnView = self.view as! SCNView
         
         scnView.scene?.rootNode.addChildNode(node)
@@ -355,10 +336,46 @@ class GameViewController: UIViewController {
         
         let node = SCNNode(geometry: geometry)
 
-        geometry.firstMaterial?.diffuse.contents = UIColor(red:0.7,green:0.5,blue:1.0,alpha:0.4)
-        
+        geometry.firstMaterial?.diffuse.contents = UIColor(red:0.0,green:0.4,blue:1.0,alpha:0.4)
+        //geometry.firstMaterial?.isDoubleSided = true
         let scnView = self.view as! SCNView
         
         scnView.scene?.rootNode.addChildNode(node)
     }
+    
+    func VirtualPushButton() {
+        var vertices = [SCNVector3]()
+        var indices : [Int16]=[]
+        for i in 0...360 {
+            let per = Float(i) / Float(360)
+            let angle = per * (Float.pi * 2)
+            let radius = Float(0.3)
+            let vertice1 = SCNVector3(cos(angle)*radius,sin(angle)*radius, 0)
+            vertices.append(vertice1)
+            let vertice2 = SCNVector3(0, 0, 0)
+            vertices.append(vertice2)
+        }
+        
+        for i in 0...720{indices.append( Int16(i))}
+        
+        let source = SCNGeometrySource(vertices: vertices)
+        
+        let element = SCNGeometryElement(indices: indices, primitiveType: .triangleStrip)
+        
+        let geometry = SCNGeometry(sources: [source], elements: [element])
+        
+        let node = SCNNode(geometry: geometry)
+        node.position = SCNVector3(1, 1, 0)       //for placement of Circle
+        geometry.firstMaterial?.diffuse.contents = UIColor(red:1.0,green:0.7,blue:0.0,alpha:1)
+        geometry.firstMaterial?.isDoubleSided = true
+        let scnView = self.view as! SCNView
+        
+        scnView.scene?.rootNode.addChildNode(node)
+        
+        
+        //let rotateAction = SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: .pi, z: 0, duration: 5))
+        //node.runAction(rotateAction)
+        
+    }
+    
 }
