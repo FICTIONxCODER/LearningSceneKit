@@ -290,9 +290,9 @@ class GameViewController: UIViewController {
             let per = Float(i) / Float(360)
             let angle = per * (Float.pi * 2)
                            
-            let vertice1 = SCNVector3(cos(angle), 0,sin(angle)+1.2)
+            let vertice1 = SCNVector3(cos(angle), 0,sin(angle))
             vertices.append(vertice1)
-            let vertice2 = SCNVector3(0, 0, 0+0.2)
+            let vertice2 = SCNVector3(0, 0, 0)
             vertices.append(vertice2)
         }
         
@@ -305,7 +305,7 @@ class GameViewController: UIViewController {
         let geometry = SCNGeometry(sources: [source], elements: [element])
         
         let node = SCNNode(geometry: geometry)
-        //node.position = SCNVector3(0, 0, 0.2)
+        node.position = SCNVector3(0, 0, 1.2)   //Position of circle
         geometry.firstMaterial?.diffuse.contents = UIColor(red:0.0,green:0.3,blue:1.0,alpha:1)
         geometry.firstMaterial?.isDoubleSided = true    // both side will be visible like 3D shape
         let scnView = self.view as! SCNView
@@ -320,9 +320,9 @@ class GameViewController: UIViewController {
             let per = Float(i) / Float(360)
             let angle = per * (Float.pi * 2)
                            
-            let vertice1 = SCNVector3(cos(angle), 0,sin(angle)+1.2)
+            let vertice1 = SCNVector3(cos(angle), 0,sin(angle))
             vertices.append(vertice1)
-            let vertice2 = SCNVector3(0, 2.20, 0)
+            let vertice2 = SCNVector3(0, 2.20,-1.2)
             vertices.append(vertice2)
         }
         
@@ -335,7 +335,7 @@ class GameViewController: UIViewController {
         let geometry = SCNGeometry(sources: [source], elements: [element])
         
         let node = SCNNode(geometry: geometry)
-
+        node.position = SCNVector3(0,0,1.2)     //Position of cone
         geometry.firstMaterial?.diffuse.contents = UIColor(red:0.0,green:0.4,blue:1.0,alpha:0.4)
         //geometry.firstMaterial?.isDoubleSided = true
         let scnView = self.view as! SCNView
